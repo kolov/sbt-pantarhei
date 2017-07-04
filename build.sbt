@@ -33,5 +33,6 @@ publishTo := {
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
 libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.2.1"
+libraryDependencies += "org.json4s" %% "json4s-native" % "3.5.2"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
 
