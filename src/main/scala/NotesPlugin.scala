@@ -11,6 +11,8 @@ object NotesPlugin extends Plugin {
       println(s"baseDir=$baseDirectory")
       val git = Git(baseDirectory)
       println(s"git remote=${git.remote()}")
+
+
       state
     }
 

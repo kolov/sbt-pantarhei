@@ -1,15 +1,10 @@
 sbtPlugin := true
 
 name := "sbt-pantarhei"
-
 organization := "com.akolov"
-
 version := "0.0.1-SNAPSHOT"
-
-description := "sbt plugin to deploy on appengine"
-
+description := "sbt plugin to generate releasenotes from github pull requests"
 licenses := Seq("MIT License" -> url("https://github.com/kolov/sbt-pantarhei/blob/master/LICENSE"))
-
 
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
@@ -38,4 +33,5 @@ publishTo := {
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
 libraryDependencies += "org.scalaj" % "scalaj-http_2.11" % "2.2.1"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
 
