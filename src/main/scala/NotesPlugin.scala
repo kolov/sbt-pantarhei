@@ -1,3 +1,4 @@
+package com.akolov.pantarhei
 import sbt._
 import Keys._
 object NotesPlugin extends Plugin {

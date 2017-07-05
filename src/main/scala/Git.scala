@@ -1,3 +1,5 @@
+package com.akolov.pantarhei
+
 import java.io.File
 
 import com.typesafe.sbt.git.JGit
