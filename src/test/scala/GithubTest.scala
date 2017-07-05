@@ -1,3 +1,5 @@
+package com.akolov.pantarhei
+
 import org.scalatest.WordSpecLike
 
 class GithubTest extends WordSpecLike {
