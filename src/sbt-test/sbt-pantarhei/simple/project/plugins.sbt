@@ -1,1 +1,1 @@
-addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.0.1-SNAPSHOT")
+addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.0.1")

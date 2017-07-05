@@ -19,13 +19,12 @@ object NotesPlugin extends Plugin {
       val pullRequests = github.getPullRequests()
 
       pullRequests.foreach { pr =>
-        println (s"[#${pr.number}](${pr.url})")
+        println (s"[#${pr.number}](${pr.htmlUrl})")
         val commits = github.getCommits(pr.number)
         commits.foreach { commit =>
-          println( s"[${commit.message}](${commit.url})")
+          println( s"* [${commit.message}](${commit.url})")
         }
       }
-
 
       state
     }

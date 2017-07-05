@@ -7,7 +7,6 @@ licenses := Seq("MIT License" -> url("https://github.com/kolov/sbt-pantarhei/blo
 
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.5")
 
 scalacOptions := Seq("-deprecation", "-unchecked")
 
