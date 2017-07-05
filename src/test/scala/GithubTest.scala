@@ -12,12 +12,5 @@ class GithubTest extends WordSpecLike {
       }
     }
 
-    "contain a parseUrl method" should {
-
-      "query github" in {
-          val gh = Github("git@github.com:kolov/sbt-pantarhei.git")
-        gh.getPullRequests()
-      }
-    }
   }
 }
