@@ -16,6 +16,7 @@ then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pas
     [#1](https://github.com/kolov/sbt-pantarhei/pull/1)
     * [parses github remote url](https://api.github.com/repos/kolov/sbt-pantarhei/git/commits/e1e35f924ae7b242c92670fd0676063fe7b96423)
 
+To access the Github API, a an access token is needed. At the moment, the location of the fle containing the token is hard-coded as `~/.github/token`. See https://github.com/settings/tokens.
  
 ## To test
 
