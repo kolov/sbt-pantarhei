@@ -10,13 +10,14 @@ Under development, functionality is very basic but usable. Include the plugin:
     
 then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pasted as github release notes:
 
-    [#2](https://github.com/kolov/sbt-pantarhei/pull/3)
-    * [output in markdwon](https://api.github .com/repos/kolov/sbt-pantarhei/git/commits/e1e35f924ae7b242c92670fd0676063fe7b96423)
-    * [something else](https://api.github.com/repos/kolov/sbt-pantarhei/git/commits/e1e35f924ae7b242c92670fd0676063fe7b96423)
-    [#1](https://github.com/kolov/sbt-pantarhei/pull/1)
-    * [parses github remote url](https://api.github.com/repos/kolov/sbt-pantarhei/git/commits/e1e35f924ae7b242c92670fd0676063fe7b96423)
+[#2](https://github.com/kolov/sbt-pantarhei/pull/2)
+* [autoPlugin, credentials](https://github.com/kolov/sbt-pantarhei/commit/449a89324b3293db10dcade85a89ed9849b94548)
+* [github token from credentials](https://github.com/kolov/sbt-pantarhei/commit/d990f551fcc2f23f53a677741bd162dd509277f0)
+[#1](https://github.com/kolov/sbt-pantarhei/pull/1)
+* [parses github remote url](https://github.com/kolov/sbt-pantarhei/commit/e1e35f924ae7b242c92670fd0676063fe7b96423)
 
-To access the Github API, a an access token is needed. At the moment, the location of the fle containing the token is hard-coded as `~/.github/token`. See https://github.com/settings/tokens.
+To access the Github API, a an access token is needed. It must be defines as sbt Credentials, with `realm=github` and
+`password={token}`.
  
 ## To test
 
