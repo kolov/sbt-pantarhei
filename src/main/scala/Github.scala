@@ -1,21 +1,16 @@
 package com.akolov.pantarhei
 
-import org.json4s.DefaultFormats
+import com.akolov.pantarhei.MyJsonProtocol._
 import spray.json._
-import DefaultJsonProtocol._
-import MyJsonProtocol._
 
-import scala.io.Source
 import scalaj.http._
 
-class Github(remoteUrl: String) {
+class Github(remoteUrl: String, val token: String) {
 
 
   val (host, owner, repository) = Github.parseUrl(remoteUrl)
   val apiUrl = s"https://api.github.com/repos/$owner/$repository"
   val home = System.getProperty("user.home")
-  val token = Source.fromFile(s"$home/.github/token").getLines().next()
-
 
   def getPullRequests(max: Int = 5): Seq[PullRequest] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls")
@@ -28,14 +23,14 @@ class Github(remoteUrl: String) {
       .elements.take(max).map(e => pullRequestFormat.read(e))
   }
 
-  def getCommits(number: Int): Seq[Commit] = {
+  def getCommits(number: Int): Seq[CommitRecord] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls/$number/commits")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
       .asString
 
     response.body.parseJson.asInstanceOf[JsArray]
-      .elements.map(e => commitRecordFormat.read(e)).map(_.commit)
+      .elements.map(e => commitRecordFormat.read(e))
   }
 
 }
@@ -43,7 +38,7 @@ class Github(remoteUrl: String) {
 
 object Github {
 
-  def apply(remoteUrl: String) = new Github(remoteUrl)
+  def apply(remoteUrl: String, token: String) = new Github(remoteUrl, token)
 
   def parseUrl(remoteUrl: String): (String, String, String) = {
     if (remoteUrl.startsWith("git@")) {

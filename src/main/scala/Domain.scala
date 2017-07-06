@@ -5,7 +5,7 @@ import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 case class PullRequest(title: String, htmlUrl: String, number: Int)
 
-case class Commit(message: String, url: String)
+case class Commit(message: String)
 
 case class CommitRecord(htmlUrl: String, commit: Commit)
 
@@ -19,8 +19,7 @@ object MyJsonProtocol extends DefaultJsonProtocol {
 
   implicit val commitFormat: RootJsonFormat[Commit] = jsonFormat(
     Commit,
-    "message",
-    "url")
+    "message")
 
   implicit val commitRecordFormat: RootJsonFormat[CommitRecord] = jsonFormat(
     CommitRecord,
