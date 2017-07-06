@@ -21,4 +21,8 @@ then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pas
 
     sbt scripted
     
+## Release to Nexus
+
+   sbt publishSigned
+    
 
