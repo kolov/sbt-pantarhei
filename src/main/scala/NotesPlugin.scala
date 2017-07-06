@@ -28,8 +28,8 @@ object NotesPlugin extends AutoPlugin {
     pullRequests.foreach { pr =>
       println(s"[#${pr.number}](${pr.htmlUrl})")
       val commits = github.getCommits(pr.number)
-      commits.foreach { commit =>
-        println(s"* [${commit.message}](${commit.url})")
+      commits.foreach { record =>
+        println(s"* [${record.commit.message}](${record.htmlUrl})")
       }
     }
   }

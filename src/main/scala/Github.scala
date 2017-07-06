@@ -23,14 +23,14 @@ class Github(remoteUrl: String, val token: String) {
       .elements.take(max).map(e => pullRequestFormat.read(e))
   }
 
-  def getCommits(number: Int): Seq[Commit] = {
+  def getCommits(number: Int): Seq[CommitRecord] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls/$number/commits")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
       .asString
 
     response.body.parseJson.asInstanceOf[JsArray]
-      .elements.map(e => commitRecordFormat.read(e)).map(_.commit)
+      .elements.map(e => commitRecordFormat.read(e))
   }
 
 }
