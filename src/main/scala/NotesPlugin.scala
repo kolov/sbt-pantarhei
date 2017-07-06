@@ -1,33 +1,39 @@
 package com.akolov.pantarhei
 
 import sbt._
-import Keys._
 
-object NotesPlugin extends Plugin {
+object NotesPlugin extends AutoPlugin {
 
-  override lazy val settings = Seq(commands += makeNotes)
+  lazy val makeNotesTask = taskKey[Unit]("Create release notes task")
 
-  lazy val makeNotes =
-    Command.command("makeReleaseNotes") { (state: State) =>
+  override def trigger: PluginTrigger = AllRequirements
 
-      val baseDirectory = Project.extract(state).get(Keys.baseDirectory)
-      println(s"baseDir=$baseDirectory")
-      val git = Git(baseDirectory)
-      val remoteUrl = git.remote
 
-      val github = Github(remoteUrl)
-      val pullRequests = github.getPullRequests()
+  override def projectSettings = Seq(makeNotesTask := makeNotes(Keys.baseDirectory.value, Keys.credentials.value))
 
-      pullRequests.foreach { pr =>
-        println (s"[#${pr.number}](${pr.htmlUrl})")
-        val commits = github.getCommits(pr.number)
-        commits.foreach { commit =>
-          println( s"* [${commit.message}](${commit.url})")
-        }
+  def makeNotes(baseDir: File, credentials: Seq[Credentials]) = {
+    println(credentials)
+    val githubCredentials = credentials.map(Credentials.toDirect).find(c => c.realm.toLowerCase == "github")
+      .getOrElse(
+        throw new Exception("Can't find github token. Expected credentials with realm=Github " + "and " +
+          "password={token}"))
+
+    println(s"baseDir=$baseDir")
+    val git = Git(baseDir)
+    val remoteUrl = git.remote
+
+    val github = Github(remoteUrl, githubCredentials.passwd)
+    val pullRequests = github.getPullRequests()
+
+    pullRequests.foreach { pr =>
+      println(s"[#${pr.number}](${pr.htmlUrl})")
+      val commits = github.getCommits(pr.number)
+      commits.foreach { commit =>
+        println(s"* [${commit.message}](${commit.url})")
       }
-
-      state
     }
+  }
+
 
 }
 

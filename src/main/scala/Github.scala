@@ -1,21 +1,16 @@
 package com.akolov.pantarhei
 
-import org.json4s.DefaultFormats
+import com.akolov.pantarhei.MyJsonProtocol._
 import spray.json._
-import DefaultJsonProtocol._
-import MyJsonProtocol._
 
-import scala.io.Source
 import scalaj.http._
 
-class Github(remoteUrl: String) {
+class Github(remoteUrl: String, val token: String) {
 
 
   val (host, owner, repository) = Github.parseUrl(remoteUrl)
   val apiUrl = s"https://api.github.com/repos/$owner/$repository"
   val home = System.getProperty("user.home")
-  val token = Source.fromFile(s"$home/.github/token").getLines().next()
-
 
   def getPullRequests(max: Int = 5): Seq[PullRequest] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls")
@@ -43,7 +38,7 @@ class Github(remoteUrl: String) {
 
 object Github {
 
-  def apply(remoteUrl: String) = new Github(remoteUrl)
+  def apply(remoteUrl: String, token: String) = new Github(remoteUrl, token)
 
   def parseUrl(remoteUrl: String): (String, String, String) = {
     if (remoteUrl.startsWith("git@")) {
