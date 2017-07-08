@@ -12,8 +12,12 @@ class Github(remoteUrl: String, val token: String) {
   val apiUrl = s"https://api.github.com/repos/$owner/$repository"
   val home = System.getProperty("user.home")
 
-  def getPullRequests(max: Int = 5): Seq[PullRequest] = {
+  def pullRequests(max: Int = 5, since: Option[String] = None): Seq[PullRequest] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls")
+      .params(since match {
+        case None => Map[String,String]()
+        case Some(date) => Map("since" -> date)
+      })
       .param("state", "all")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
@@ -23,7 +27,7 @@ class Github(remoteUrl: String, val token: String) {
       .elements.take(max).map(e => pullRequestFormat.read(e))
   }
 
-  def getCommits(number: Int): Seq[CommitRecord] = {
+  def getPRCommits(number: Int): Seq[CommitRecord] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls/$number/commits")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
@@ -32,14 +36,39 @@ class Github(remoteUrl: String, val token: String) {
     response.body.parseJson.asInstanceOf[JsArray]
       .elements.map(e => commitRecordFormat.read(e))
   }
-  def getLatestRelease(): Release = {
+
+  def getLatestRelease(): Option[Release] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/releases/latest")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
       .asString
 
-    response.body.parseJson.convertTo[Release]
+    if (response.code == 404)
+      return None
+    else if (response.code == 200)
+      return Some(response.body.parseJson.convertTo[Release])
+    else throw new Exception(s"Error: $response.body")
   }
+
+  def tags(): Seq[Tag] = {
+    val response: HttpResponse[String] = Http(s"$apiUrl/tags")
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .asString
+
+    response.body.parseJson.asInstanceOf[JsArray]
+      .elements.map(e => tagFormat.read(e))
+  }
+
+  def getCommit(sha: String) = {
+    val response: HttpResponse[String] = Http(s"$apiUrl/commits/$sha")
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .asString
+
+    response.body.parseJson.convertTo[CommitRecord]
+  }
+
 
 }
 
