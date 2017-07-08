@@ -1,5 +1,6 @@
 import java.io.File
 
+import com.akolov.pantarhei.NotesPlugin.Latest
 import com.akolov.pantarhei.{Github, NotesPlugin}
 import org.scalatest.WordSpecLike
 
@@ -23,7 +24,7 @@ class GithubIT extends WordSpecLike {
 
   "The Notes Plugin" should {
     "make RN" in {
-      NotesPlugin.makeNotes(new File("/Users/assen/projects/sbt-pantarhei"), token)
+      new NotesPlugin(new File("/Users/assen/projects/sbt-pantarhei"), token).makeNotes(Latest)
     }
   }
   "The class Github" should {
