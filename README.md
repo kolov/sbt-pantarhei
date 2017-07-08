@@ -6,9 +6,9 @@ Sbt plugin creating release notes for a release from the pull requests and git c
 
 Under development, functionality is very basic but usable. Include the plugin:
 
-    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.0.2")
+    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.0.3")
     
-then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pasted as github release notes:
+then run `sbt printNotesAfterLatest`. The output is im markdown, ready to be copy/pasted as github release notes:
 
 ```
 [#2](https://github.com/kolov/sbt-pantarhei/pull/2)
