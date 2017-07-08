@@ -10,7 +10,8 @@ Under development, functionality is very basic but usable. Include the plugin:
     
 then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pasted as github release notes:
 
-```[#2](https://github.com/kolov/sbt-pantarhei/pull/2)
+```
+[#2](https://github.com/kolov/sbt-pantarhei/pull/2)
 * [autoPlugin, credentials](https://github.com/kolov/sbt-pantarhei/commit/449a89324b3293db10dcade85a89ed9849b94548)
 * [github token from credentials](https://github.com/kolov/sbt-pantarhei/commit/d990f551fcc2f23f53a677741bd162dd509277f0)
 [#1](https://github.com/kolov/sbt-pantarhei/pull/1)
