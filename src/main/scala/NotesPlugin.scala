@@ -1,17 +1,24 @@
 package com.akolov.pantarhei
 
 import sbt._
+import complete.DefaultParsers._
 
 object NotesPlugin extends AutoPlugin {
 
-  lazy val makeNotesTask = taskKey[Unit]("Create release notes task")
+  lazy val makeNotes = inputKey[Unit]("Create release notes task")
 
   override def trigger: PluginTrigger = AllRequirements
 
 
-  override def projectSettings = Seq(makeNotesTask := makeNotes(Keys.baseDirectory.value, Keys.credentials.value))
+  override def projectSettings = Seq(
+    makeNotes := {
+      val baseDirectory = Keys.baseDirectory.value
+      val credentials = Keys.credentials.value
+      val args = spaceDelimited("<arg>").parsed
+      makeNotes(baseDirectory, credentials, args)
+    })
 
-  def makeNotes(baseDir: File, credentials: Seq[Credentials]) = {
+  def makeNotes(baseDir: File, credentials: Seq[Credentials], args: Seq[String] ) = {
     println(credentials)
     val githubCredentials = credentials.map(Credentials.toDirect).find(c => c.realm.toLowerCase == "github")
       .getOrElse(

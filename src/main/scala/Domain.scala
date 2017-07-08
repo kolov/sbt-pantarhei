@@ -9,6 +9,8 @@ case class Commit(message: String)
 
 case class CommitRecord(htmlUrl: String, commit: Commit)
 
+case class Release(tagName: String, body: String)
+
 object MyJsonProtocol extends DefaultJsonProtocol {
 
   implicit val pullRequestFormat: RootJsonFormat[PullRequest] = jsonFormat(
@@ -25,5 +27,11 @@ object MyJsonProtocol extends DefaultJsonProtocol {
     CommitRecord,
     "html_url",
     "commit")
+
+  implicit val releaseFormat: RootJsonFormat[Release] = jsonFormat(
+    Release,
+    "tag_name",
+    "body"
+  )
 
 }

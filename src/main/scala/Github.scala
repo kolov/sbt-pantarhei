@@ -32,6 +32,14 @@ class Github(remoteUrl: String, val token: String) {
     response.body.parseJson.asInstanceOf[JsArray]
       .elements.map(e => commitRecordFormat.read(e))
   }
+  def getLatestRelease(): Release = {
+    val response: HttpResponse[String] = Http(s"$apiUrl/releases/latest")
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .asString
+
+    response.body.parseJson.convertTo[Release]
+  }
 
 }
 
