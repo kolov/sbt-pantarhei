@@ -17,7 +17,7 @@ This makes two sbt tasks available: `printNotesForLatest` and `printNotesAfterLa
 | `printNotesAfterLatest`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
 
 
-The output is im markdown, ready to be copy/pasted as github release notes. Example:
+The output is in markdown, ready to be copy/pasted as github release notes. Example:
 
 ```
 $ sbt printNotesForLatest
@@ -34,6 +34,7 @@ $ sbt printNotesAfterLatest
 Preparing release notes from pull requests after tag 0.0.1
 No pull requests were found since last tag
 ```
+
 To access the Github API, a an access token is needed. It must be defines as sbt Credentials, with `realm=github` and
 `password={token}`.
  

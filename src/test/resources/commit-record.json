@@ -1,0 +1,89 @@
+{
+  "sha": "52af562731e79b5424e5f6ec5a3cba7735024688",
+  "commit": {
+    "author": {
+      "name": "Assen Kolov",
+      "email": "assen.kolov@gmail.com",
+      "date": "2017-07-06T21:37:00Z"
+    },
+    "committer": {
+      "name": "Assen Kolov",
+      "email": "assen.kolov@gmail.com",
+      "date": "2017-07-06T21:37:00Z"
+    },
+    "message": "readme",
+    "tree": {
+      "sha": "d2a48bb1be177c9478a81ffb54aa7bfefb744bf4",
+      "url": "https://api.github.com/repos/kolov/sbt-pantarhei/git/trees/d2a48bb1be177c9478a81ffb54aa7bfefb744bf4"
+    },
+    "url": "https://api.github.com/repos/kolov/sbt-pantarhei/git/commits/52af562731e79b5424e5f6ec5a3cba7735024688",
+    "comment_count": 0
+  },
+  "url": "https://api.github.com/repos/kolov/sbt-pantarhei/commits/52af562731e79b5424e5f6ec5a3cba7735024688",
+  "html_url": "https://github.com/kolov/sbt-pantarhei/commit/52af562731e79b5424e5f6ec5a3cba7735024688",
+  "comments_url": "https://api.github.com/repos/kolov/sbt-pantarhei/commits/52af562731e79b5424e5f6ec5a3cba7735024688/comments",
+  "author": {
+    "login": "kolov",
+    "id": 733349,
+    "avatar_url": "https://avatars1.githubusercontent.com/u/733349?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/kolov",
+    "html_url": "https://github.com/kolov",
+    "followers_url": "https://api.github.com/users/kolov/followers",
+    "following_url": "https://api.github.com/users/kolov/following{/other_user}",
+    "gists_url": "https://api.github.com/users/kolov/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/kolov/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/kolov/subscriptions",
+    "organizations_url": "https://api.github.com/users/kolov/orgs",
+    "repos_url": "https://api.github.com/users/kolov/repos",
+    "events_url": "https://api.github.com/users/kolov/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/kolov/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "kolov",
+    "id": 733349,
+    "avatar_url": "https://avatars1.githubusercontent.com/u/733349?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/kolov",
+    "html_url": "https://github.com/kolov",
+    "followers_url": "https://api.github.com/users/kolov/followers",
+    "following_url": "https://api.github.com/users/kolov/following{/other_user}",
+    "gists_url": "https://api.github.com/users/kolov/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/kolov/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/kolov/subscriptions",
+    "organizations_url": "https://api.github.com/users/kolov/orgs",
+    "repos_url": "https://api.github.com/users/kolov/repos",
+    "events_url": "https://api.github.com/users/kolov/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/kolov/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "95e87e4749f6d34ebca2df810c39146bc65134a7",
+      "url": "https://api.github.com/repos/kolov/sbt-pantarhei/commits/95e87e4749f6d34ebca2df810c39146bc65134a7",
+      "html_url": "https://github.com/kolov/sbt-pantarhei/commit/95e87e4749f6d34ebca2df810c39146bc65134a7"
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "additions": 2,
+    "deletions": 2
+  },
+  "files": [
+    {
+      "sha": "7c4cf07e169e5a50a5ea345ff17b0bd17850b5e1",
+      "filename": "README.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "changes": 4,
+      "blob_url": "https://github.com/kolov/sbt-pantarhei/blob/52af562731e79b5424e5f6ec5a3cba7735024688/README.md",
+      "raw_url": "https://github.com/kolov/sbt-pantarhei/raw/52af562731e79b5424e5f6ec5a3cba7735024688/README.md",
+      "contents_url": "https://api.github.com/repos/kolov/sbt-pantarhei/contents/README.md?ref=52af562731e79b5424e5f6ec5a3cba7735024688",
+      "patch": "@@ -10,12 +10,12 @@ Under development, functionality is very basic but usable. Include the plugin:\n     \n then run `sbt makeReleaseNotes`. The output is im markdown, ready to be copy/pasted as github release notes:\n \n-[#2](https://github.com/kolov/sbt-pantarhei/pull/2)\n+```[#2](https://github.com/kolov/sbt-pantarhei/pull/2)\n * [autoPlugin, credentials](https://github.com/kolov/sbt-pantarhei/commit/449a89324b3293db10dcade85a89ed9849b94548)\n * [github token from credentials](https://github.com/kolov/sbt-pantarhei/commit/d990f551fcc2f23f53a677741bd162dd509277f0)\n [#1](https://github.com/kolov/sbt-pantarhei/pull/1)\n * [parses github remote url](https://github.com/kolov/sbt-pantarhei/commit/e1e35f924ae7b242c92670fd0676063fe7b96423)\n-\n+```\n To access the Github API, a an access token is needed. It must be defines as sbt Credentials, with `realm=github` and\n `password={token}`.\n  "
+    }
+  ]
+}
