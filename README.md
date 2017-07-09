@@ -1,12 +1,13 @@
 # sbt-pantarhei [![CircleCI](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master.svg?style=svg)](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master)
 
-Sbt plugin creating release notes for a release from the pull requests and git commits since the latest release.
+Sbt plugin creating release notes for a release from the recent 
+pull requests and git commits. Read more about release notes on [Github](https://github.com/blog/1547-release-your-software)
 
 ## Usage
 
 This plugin is under development, the functionality is very basic but usable. Include the plugin:
 
-    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.0.3")
+    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.1.0")
 
 This makes two sbt tasks available: `printNotesForLatest` and `printNotesAfterLatest`:
 
