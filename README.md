@@ -1,7 +1,9 @@
-# sbt-pantarhei [![CircleCI](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master.svg?style=svg)](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master)
+# Panta rhei [![CircleCI](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master.svg?style=svg)](https://circleci.com/gh/kolov/sbt-pantarhei/tree/master)
 
-Sbt plugin creating release notes for a release from the recent 
-pull requests and git commits. Read more about release notes on [Github](https://github.com/blog/1547-release-your-software)
+_*Πάντα ῥεῖ*_ - _everything flows_, and release notes can help keep track of what has changed.
+
+Pantarhei is a sbt plugin that can create release notes from the  
+pull requests and git commits in github. Read more about release notes on [github](https://github.com/blog/1547-release-your-software).
 
 ## Usage
 
