@@ -14,11 +14,11 @@ class Github(remoteUrl: String, val token: String) {
 
   def pullRequests(max: Int = 5, since: Option[String] = None): Seq[PullRequest] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls")
+      .param("state", "all")
       .params(since match {
         case None => Map[String,String]()
         case Some(date) => Map("since" -> date)
       })
-      .param("state", "all")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
       .asString

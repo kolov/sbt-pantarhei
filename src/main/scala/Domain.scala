@@ -3,7 +3,7 @@ package com.akolov.pantarhei
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 
-case class PullRequest(title: String, htmlUrl: String, number: Int)
+case class PullRequest(title: String, htmlUrl: String, number: Int, createdAt: String)
 
 case class Commit(sha: String, url: String)
 
@@ -25,7 +25,8 @@ object MyJsonProtocol extends DefaultJsonProtocol {
     PullRequest,
     "title",
     "html_url",
-    "number")
+    "number",
+    "created_at")
 
   implicit val commitPersonFormat: RootJsonFormat[CommitPerson] = jsonFormat(
     CommitPerson,
