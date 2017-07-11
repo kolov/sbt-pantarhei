@@ -3,13 +3,14 @@
 _*Πάντα ῥεῖ*_ - _everything flows_, and release notes can help keep track of what has changed.
 
 Pantarhei is a sbt plugin that can create release notes from the  
-pull requests and git commits in github. Read more about release notes on [github](https://github.com/blog/1547-release-your-software).
+pull requests and git commits in github. Read more about Github's support for 
+releases and release notes [here](https://github.com/blog/1547-release-your-software).
 
 ## Usage
 
 This plugin is under development, the functionality is very basic but usable. Include the plugin:
 
-    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.1.0")
+    addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.2.1")
 
 This makes the following sbt tasks available:
 
@@ -17,7 +18,7 @@ This makes the following sbt tasks available:
 | Command                   |     Description          |
 | --------------------------|-------------|
 | `printNotesForLatestTag`     | Prints release notes usable for the latest remote  tag - that is, form all pull requests _after_ the _previous_ tag, if any,  and _before_ the _last_ tag       |
-| `pushNotesForLatestTag`     | Creates or updates release notes for the latest remote  tag.  `-Dpantarhei.release.name=` will define a release name.   |
+| `pushNotesForLatestTag`     | Creates or updates release notes for the latest remote  tag on github.  `-Dpantarhei.release.name=` will define a release name.   |
 | `printNotesForNextTag`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
 
 

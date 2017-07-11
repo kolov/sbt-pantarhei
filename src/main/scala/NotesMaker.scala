@@ -143,7 +143,7 @@ class NotesMaker(baseDir: java.io.File, token: String) {
             github.editReleaseNotes(release, body)
           }
           case None => {
-            println(s"Ceealting release for tag ${upperBound.get.tagName}")
+            println(s"Creating release for tag ${upperBound.get.tagName}")
             val nameFromProperty = System.getProperty("pantarhei.release.name")
             val releaseName = if( nameFromProperty != null) nameFromProperty else s"Release ${upperBound.get.tagName}"
             github.pushReleaseNotes(upperBound.get, releaseName, body)
