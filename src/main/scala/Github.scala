@@ -7,7 +7,6 @@ import scalaj.http._
 
 class Github(remoteUrl: String, val token: String) {
 
-
   val (host, owner, repository) = Github.parseUrl(remoteUrl)
   val apiUrl = s"https://api.github.com/repos/$owner/$repository"
   val home = System.getProperty("user.home")
@@ -16,7 +15,7 @@ class Github(remoteUrl: String, val token: String) {
     val response: HttpResponse[String] = Http(s"$apiUrl/pulls")
       .param("state", "all")
       .params(since match {
-        case None => Map[String,String]()
+        case None => Map[String, String]()
         case Some(date) => Map("since" -> date)
       })
       .header("Accept", "application/vnd.github.v3+json")
@@ -37,7 +36,7 @@ class Github(remoteUrl: String, val token: String) {
       .elements.map(e => commitRecordFormat.read(e))
   }
 
-  def getLatestRelease(): Option[Release] = {
+  def getLatestRelease(): Option[ReleaseResponse] = {
     val response: HttpResponse[String] = Http(s"$apiUrl/releases/latest")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
@@ -46,7 +45,7 @@ class Github(remoteUrl: String, val token: String) {
     if (response.code == 404)
       return None
     else if (response.code == 200)
-      return Some(response.body.parseJson.convertTo[Release])
+      return Some(response.body.parseJson.convertTo[ReleaseResponse])
     else throw new Exception(s"Error: $response.body")
   }
 
@@ -67,6 +66,27 @@ class Github(remoteUrl: String, val token: String) {
       .asString
 
     response.body.parseJson.convertTo[CommitRecord]
+  }
+
+  def pushReleaseNotes(tag: Tag, body: String) = {
+    val response: HttpResponse[String] = Http(s"$apiUrl/releases")
+      .postData(releaseRequestFormat.write(ReleaseRequest(tag.tagName, "release name", body)).toString)
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .asString
+
+    response.body.parseJson.convertTo[ReleaseResponse]
+  }
+
+  def editReleaseNotes(release: ReleaseResponse, body: String) = {
+    val response: HttpResponse[String] = Http(s"$apiUrl/releases/${release.id}")
+      .postData(releaseRequestFormat.write(ReleaseRequest(release.tagName, "release name", body)).toString)
+      .method("PATCH")
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .asString
+
+    response.body.parseJson.convertTo[ReleaseResponse]
   }
 
 

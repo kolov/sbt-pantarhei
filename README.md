@@ -11,13 +11,14 @@ This plugin is under development, the functionality is very basic but usable. In
 
     addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.1.0")
 
-This makes two sbt tasks available: `printNotesForLatest` and `printNotesAfterLatest`:
+This makes the following sbt tasks available:
 
 
 | Command                   |     Description          |
 | --------------------------|-------------|
-| `printNotesForLatest`     | Prints release notes usable for the latest remote  tag - that is, form all pull requests _after_ the _previous_ tag, if any,  and _before_ the _last_ tag       |
-| `printNotesAfterLatest`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
+| `printNotesForLatestTag`     | Prints release notes usable for the latest remote  tag - that is, form all pull requests _after_ the _previous_ tag, if any,  and _before_ the _last_ tag       |
+| `pushNotesForLatestTag`     | Creates or updates release notes for the latest remote  tag.     |
+| `printNotesForNextTag`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
 
 
 The output is in markdown, ready to be copy/pasted as github release notes. Example:

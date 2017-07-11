@@ -7,17 +7,20 @@ case class PullRequest(title: String, htmlUrl: String, number: Int, createdAt: S
 
 case class Commit(sha: String, url: String)
 
-case class CommitInfo(message: String, author: CommitPerson)
+case class CommitInfo( message: String, author: CommitPerson)
 
 case class CommitPerson(name: String, email: String, date: String)
 
-case class CommitRecord(htmlUrl: String, commit: CommitInfo)
+case class CommitRecord(sha: String, htmlUrl: String, commit: CommitInfo)
 
-case class Release(tagName: String, body: String)
+case class ReleaseRequest(tagName: String, name: String, body: String)
+
+case class ReleaseResponse(id: Int, tagName: String, name: String, body: String)
 
 case class Tag(tagName: String, commit: Commit)
 
 case class CommitterInfo(name: String, email: String, date: String)
+
 
 object MyJsonProtocol extends DefaultJsonProtocol {
 
@@ -47,12 +50,22 @@ object MyJsonProtocol extends DefaultJsonProtocol {
 
   implicit val commitRecordFormat: RootJsonFormat[CommitRecord] = jsonFormat(
     CommitRecord,
+    "sha",
     "html_url",
     "commit")
 
-  implicit val releaseFormat: RootJsonFormat[Release] = jsonFormat(
-    Release,
+  implicit val releaseRequestFormat: RootJsonFormat[ReleaseRequest] = jsonFormat(
+    ReleaseRequest,
     "tag_name",
+    "name",
+    "body"
+  )
+
+  implicit val releaseResponseFormat: RootJsonFormat[ReleaseResponse] = jsonFormat(
+    ReleaseResponse,
+    "id",
+    "tag_name",
+    "name",
     "body"
   )
   implicit val tagFormat: RootJsonFormat[Tag] = jsonFormat(
