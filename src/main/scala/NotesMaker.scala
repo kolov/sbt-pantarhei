@@ -7,26 +7,33 @@ import sbt._
 
 object NotesMaker extends sbt.AutoPlugin {
 
-  lazy val printNotesAfterLatest = taskKey[Unit]("Create release notes af pull requests after the latest tag")
-  lazy val printNotesForLatest = taskKey[Unit]("Create release notes af pull requests for the latest tag")
+  lazy val printNotesForNextTag = taskKey[Unit]("Create and print release notes af pull requests after the latest tag")
+  lazy val printNotesForLatestTag = taskKey[Unit]("Create and print release notes af pull requests for the latest tag")
+  lazy val pushNotesForLatestTag = taskKey[Unit]("Create and push release notes af pull requests for the latest tag")
 
   override def trigger: PluginTrigger = AllRequirements
 
 
   override def projectSettings = Seq(
-    printNotesAfterLatest := {
+    printNotesForNextTag := {
       val baseDirectory = Keys.baseDirectory.value
       val credentials = Keys.credentials.value
-      processNotes(baseDirectory, credentials, FutureCommit)
+      processNotes(baseDirectory, credentials, FutureCommit, PrintNotes)
     },
-    printNotesForLatest := {
+    printNotesForLatestTag := {
       val baseDirectory = Keys.baseDirectory.value
       val credentials = Keys.credentials.value
-      processNotes(baseDirectory, credentials, LatestComit)
+      processNotes(baseDirectory, credentials, LatestComit, PrintNotes)
+    },
+    pushNotesForLatestTag := {
+      val baseDirectory = Keys.baseDirectory.value
+      val credentials = Keys.credentials.value
+      processNotes(baseDirectory, credentials, LatestComit, PushNotes)
     }
   )
 
-  def processNotes(baseDirectory: java.io.File, credentials: Seq[Credentials], target: Target): Unit = {
+  def processNotes(baseDirectory: java.io.File, credentials: Seq[Credentials],
+                   target: Target, action: Action): Unit = {
     val githubCredentials = credentials.map(Credentials.toDirect).find(c => c.realm.toLowerCase == "github")
       .orElse(
         Credentials.loadCredentials(new File(System.getProperty("user.home") + "/.github/credentials")) match {
@@ -39,7 +46,8 @@ object NotesMaker extends sbt.AutoPlugin {
       return ()
     }
 
-    new NotesMaker(baseDirectory, githubCredentials.get.passwd).makeNotes(target)
+    new NotesMaker(baseDirectory, githubCredentials.get.passwd)
+      .makeNotes(target, action)
   }
 }
 
@@ -59,7 +67,7 @@ class NotesMaker(baseDir: java.io.File, token: String) {
     def this(lowerBound: Option[Tag], upperBound: Option[Tag]) = this(lowerBound, upperBound, None)
   }
 
-  def makeNotes(target: Target): Unit = {
+  def makeNotes(target: Target, action: Action): Unit = {
     val tags = github.tags
 
     val parameters = target match {
@@ -84,7 +92,7 @@ class NotesMaker(baseDir: java.io.File, token: String) {
         return ()
       }
       case Parameters(lower, upper, _) => {
-        printNotes(lower, upper)
+        printNotes(lower, upper, action)
       }
     }
   }
@@ -93,7 +101,7 @@ class NotesMaker(baseDir: java.io.File, token: String) {
 
   def dateStrToTicks(dateStr: String) = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(dateStr).getTime()
 
-  def printNotes(lowerBound: Option[Tag], upperBound: Option[Tag]): Unit = {
+  def printNotes(lowerBound: Option[Tag], upperBound: Option[Tag], action: Action): Unit = {
     (lowerBound, upperBound) match {
       case (Some(l), Some(u)) => println(s"Preparing release notes from pull requests between tags ${l.tagName} and ${u.tagName}\n")
       case (None, Some(u)) => println(s"Preparing release notes from pull requests before tag ${u.tagName}\n")
@@ -116,22 +124,43 @@ class NotesMaker(baseDir: java.io.File, token: String) {
       println("No pull requests were found since last tag")
     }
 
-    pullRequests.foreach { pr =>
-      println(s"[PR #${pr.number}](${pr.htmlUrl}) ${pr.title}")
+    val body = pullRequests.foldLeft("") { (txt, pr) =>
       val commits = github.getPRCommits(pr.number)
-      commits.foreach { record =>
-        println(s"* [${record.commit.message}](${record.htmlUrl})")
-      }
-      println
+      txt + s"[PR #${pr.number}](${pr.htmlUrl}) ${pr.title}\n" +
+        commits.foldLeft("") { (txt, record) =>
+          txt + s"* ${record.commit.message} _[${record.sha.substring(0, 7)}](${record.htmlUrl})_\n"
+        } + "\n"
     }
+
+    println(body)
+
+    if (action == PushNotes) {
+        github.getLatestRelease().find(_.tagName == upperBound.get.tagName) match {
+          case Some(release) => {
+            println(s"Patching release ${release.id} for tag ${upperBound.get.tagName}")
+            github.editReleaseNotes(release, body)
+          }
+          case None => {
+            println(s"Ceealting release for tag ${upperBound.get.tagName}")
+            github.pushReleaseNotes(upperBound.get, body)
+          }
+        }
+    }
+
   }
 }
 
-class Target
+sealed trait Target
 
 case object LatestComit extends Target
 
 case object FutureCommit extends Target
+
+sealed trait Action
+
+case object PushNotes extends Action
+
+case object PrintNotes extends Action
 
 
 

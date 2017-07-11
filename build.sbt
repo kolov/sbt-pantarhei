@@ -27,7 +27,7 @@ addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
 
 scalacOptions := Seq("-deprecation", "-unchecked")
-credentials += Credentials(Path.userHome / ".github" / "token")
+credentials += Credentials(Path.userHome / ".github" / "credentials")
 resolvers += "Maven.org" at "http://repo1.maven.org/maven2"
 pomIncludeRepository := { _ => false }
 publishMavenStyle := true
