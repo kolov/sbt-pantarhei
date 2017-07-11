@@ -8,7 +8,7 @@ releases and release notes [here](https://github.com/blog/1547-release-your-soft
 
 ## Usage
 
-This plugin is under development, the functionality is very basic but usable. Include the plugin:
+Include the plugin:
 
     addSbtPlugin("com.akolov" % "sbt-pantarhei" % "0.2.1")
 
