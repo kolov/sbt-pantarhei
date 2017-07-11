@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import sbt._
 
 
-object NotesPlugin extends sbt.AutoPlugin {
+object NotesMaker extends sbt.AutoPlugin {
 
   lazy val printNotesAfterLatest = taskKey[Unit]("Create release notes af pull requests after the latest tag")
   lazy val printNotesForLatest = taskKey[Unit]("Create release notes af pull requests for the latest tag")
@@ -17,35 +17,39 @@ object NotesPlugin extends sbt.AutoPlugin {
     printNotesAfterLatest := {
       val baseDirectory = Keys.baseDirectory.value
       val credentials = Keys.credentials.value
-      val token = extractToken(credentials)
-      new NotesPlugin(baseDirectory, token).makeNotes(FutureCommit)
+      processNotes(baseDirectory, credentials, FutureCommit)
     },
     printNotesForLatest := {
       val baseDirectory = Keys.baseDirectory.value
       val credentials = Keys.credentials.value
-      val token = extractToken(credentials)
-      new NotesPlugin(baseDirectory, token).makeNotes(LatestComit)
+      processNotes(baseDirectory, credentials, LatestComit)
     }
   )
 
-  private def extractToken(credentials: Seq[Credentials]) = {
-    credentials.map(Credentials.toDirect).find(c => c.realm.toLowerCase == "github")
-      .getOrElse(
-        throw new Exception("Can't find github token. Expected credentials with realm=Github " + "and " +
-          "password={token}")).passwd
+  def processNotes(baseDirectory: java.io.File, credentials: Seq[Credentials], target: Target): Unit = {
+    val githubCredentials = credentials.map(Credentials.toDirect).find(c => c.realm.toLowerCase == "github")
+      .orElse(
+        Credentials.loadCredentials(new File(System.getProperty("user.home") + "/.github/credentials")) match {
+          case Left(_) => None
+          case Right(dc) => Some(dc)
+        })
+    if (!githubCredentials.isDefined) {
+      println("Can't find github authentication token. Expected credentials with realm=Github " + "and " + "password={token}")
+      println("If no  credentials are defined in sbt, /.github/credentials is always searched")
+      return ()
+    }
+
+    new NotesMaker(baseDirectory, githubCredentials.get.passwd).makeNotes(target)
   }
-
-
 }
 
 
-class NotesPlugin(baseDir: java.io.File, token: String) {
+class NotesMaker(baseDir: java.io.File, token: String) {
 
 
   val git = Git(baseDir)
   val remoteUrl = git.remote
   val github = Github(remoteUrl, token)
-
 
   case class Parameters(lowerBound: Option[Tag], upperBound: Option[Tag], errorMessage: Option[String]) {
     require(lowerBound.isDefined || upperBound.isDefined || errorMessage.isDefined)
@@ -56,7 +60,6 @@ class NotesPlugin(baseDir: java.io.File, token: String) {
   }
 
   def makeNotes(target: Target): Unit = {
-
     val tags = github.tags
 
     val parameters = target match {
@@ -114,11 +117,12 @@ class NotesPlugin(baseDir: java.io.File, token: String) {
     }
 
     pullRequests.foreach { pr =>
-      println(s"[#${pr.number}](${pr.htmlUrl})")
+      println(s"[PR #${pr.number}](${pr.htmlUrl}) ${pr.title}")
       val commits = github.getPRCommits(pr.number)
       commits.foreach { record =>
         println(s"* [${record.commit.message}](${record.htmlUrl})")
       }
+      println
     }
   }
 }

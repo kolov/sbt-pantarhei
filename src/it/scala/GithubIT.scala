@@ -1,6 +1,6 @@
 import java.io.File
 
-import com.akolov.pantarhei.{FutureCommit, Github, NotesPlugin}
+import com.akolov.pantarhei.{FutureCommit, Github, NotesMaker}
 import org.scalatest.WordSpecLike
 
 import scala.io.Source
@@ -23,7 +23,7 @@ class GithubIT extends WordSpecLike {
 
   "The Notes Plugin" should {
     "make RN" in {
-      new NotesPlugin(new File("/Users/assen/projects/sbt-pantarhei"), token).makeNotes(FutureCommit)
+      new NotesMaker(new File("/Users/assen/projects/sbt-pantarhei"), token).makeNotes(FutureCommit)
     }
   }
   "The class Github" should {

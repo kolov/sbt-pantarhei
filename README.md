@@ -26,10 +26,11 @@ The output is in markdown, ready to be copy/pasted as github release notes. Exam
 $ sbt printNotesForLatest
 Preparing release notes from pull requests before tag 0.0.1
 
-[#2](https://github.com/kolov/sbt-pantarhei/pull/2)
+[PR #2](https://github.com/kolov/sbt-pantarhei/pull/2) Config token
 * [autoPlugin, credentials](https://github.com/kolov/sbt-pantarhei/commit/449a89324b3293db10dcade85a89ed9849b94548)
 * [github token from credentials](https://github.com/kolov/sbt-pantarhei/commit/d990f551fcc2f23f53a677741bd162dd509277f0)
-[#1](https://github.com/kolov/sbt-pantarhei/pull/1)
+
+[PR #1](https://github.com/kolov/sbt-pantarhei/pull/1) test PR to use for retreiving PRs
 * [parses github remote url](https://github.com/kolov/sbt-pantarhei/commit/e1e35f924ae7b242c92670fd0676063fe7b96423)
 
 
