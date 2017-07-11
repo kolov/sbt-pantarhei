@@ -55,6 +55,7 @@ object NotesMaker extends sbt.AutoPlugin {
 class NotesMaker(baseDir: java.io.File, token: String) {
 
 
+
   val git = Git(baseDir)
   val remoteUrl = git.remote
   val github = Github(remoteUrl, token)
@@ -68,6 +69,7 @@ class NotesMaker(baseDir: java.io.File, token: String) {
   }
 
   def makeNotes(target: Target, action: Action): Unit = {
+
     val tags = github.tags
 
     val parameters = target match {
@@ -142,7 +144,9 @@ class NotesMaker(baseDir: java.io.File, token: String) {
           }
           case None => {
             println(s"Ceealting release for tag ${upperBound.get.tagName}")
-            github.pushReleaseNotes(upperBound.get, body)
+            val nameFromProperty = System.getProperty("pantarhei.release.name")
+            val releaseName = if( nameFromProperty != null) nameFromProperty else s"Release ${upperBound.get.tagName}"
+            github.pushReleaseNotes(upperBound.get, releaseName, body)
           }
         }
     }

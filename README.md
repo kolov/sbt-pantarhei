@@ -17,7 +17,7 @@ This makes the following sbt tasks available:
 | Command                   |     Description          |
 | --------------------------|-------------|
 | `printNotesForLatestTag`     | Prints release notes usable for the latest remote  tag - that is, form all pull requests _after_ the _previous_ tag, if any,  and _before_ the _last_ tag       |
-| `pushNotesForLatestTag`     | Creates or updates release notes for the latest remote  tag.     |
+| `pushNotesForLatestTag`     | Creates or updates release notes for the latest remote  tag.  `-Dpantarhei.release.name=` will define a release name.   |
 | `printNotesForNextTag`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
 
 

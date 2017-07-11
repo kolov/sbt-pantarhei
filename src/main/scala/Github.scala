@@ -68,9 +68,9 @@ class Github(remoteUrl: String, val token: String) {
     response.body.parseJson.convertTo[CommitRecord]
   }
 
-  def pushReleaseNotes(tag: Tag, body: String) = {
+  def pushReleaseNotes(tag: Tag, name: String, body: String) = {
     val response: HttpResponse[String] = Http(s"$apiUrl/releases")
-      .postData(releaseRequestFormat.write(ReleaseRequest(tag.tagName, "release name", body)).toString)
+      .postData(releaseRequestFormat.write(ReleaseRequest(tag.tagName, name, body)).toString)
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
       .asString
@@ -80,7 +80,7 @@ class Github(remoteUrl: String, val token: String) {
 
   def editReleaseNotes(release: ReleaseResponse, body: String) = {
     val response: HttpResponse[String] = Http(s"$apiUrl/releases/${release.id}")
-      .postData(releaseRequestFormat.write(ReleaseRequest(release.tagName, "release name", body)).toString)
+      .postData(releaseRequestFormat.write(ReleaseRequest(release.tagName, release.name, body)).toString)
       .method("PATCH")
       .header("Accept", "application/vnd.github.v3+json")
       .header("Authorization", s"token $token")
