@@ -41,8 +41,13 @@ Preparing release notes from pull requests after tag 0.0.1
 No pull requests were found since last tag
 ```
 
-To access the Github API, a an access token is needed. It must be defines as sbt Credentials, with `realm=github` and
-`password={token}`.
+To access the Github API, a an access token is needed. It must be defined as sbt Credentials, with `realm=github` and
+`password={token}`. The plugin will always try `~/.github/credentials`, if no goot credantials were found. A sample content:
+
+    realm=Github
+    password=... the real token here ...
+    user=whatever
+    host=whatever
  
 ## Hints for use
 
