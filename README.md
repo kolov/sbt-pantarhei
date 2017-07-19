@@ -49,13 +49,10 @@ To access the Github API, a an access token is needed. It must be defines as sbt
 To get sensible release notes, provide sensible Pull Request titles and commit messages. Consider squashing your commits.
 
 You can install this plugin as a [global plugin](http://www.scala-sbt.org/0.12.2/docs/Getting-Started/Using-Plugins.html#global-plugins) to avoid configuring the Github access token for every project.
-
-## To test
-
-    sbt scripted
     
-## Release to Nexus
+## Development 
 
-   sbt publishSigned
+* publish: `sbt publishSigned`
+* test `sbt scripted`
     
 
