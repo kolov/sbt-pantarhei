@@ -42,7 +42,7 @@ No pull requests were found since last tag
 ```
 
 To access the Github API, a an access token is needed. It must be defined as sbt Credentials, with `realm=github` and
-`password={token}`. The plugin will always try `~/.github/credentials`, if no goot credantials were found. A sample content:
+`password={token}`. The plugin will always try `~/.github/credentials`, if no good credantials were found. Sample content:
 
     realm=Github
     password=... the real token here ...
