@@ -22,7 +22,7 @@ This makes the following sbt tasks available:
 | `printNotesForNextTag`   | Prints release notes from the pull requests _after_ the _latest_  tag. These notes will be usable for the _next tag_        |
 
 
-The output is in markdown, ready to be copy/pasted as github release notes. Example:
+The output of the `print` tasks is in markdown, ready to be copy/pasted as github release notes. Example:
 
 ```
 $ sbt printNotesForLatest
@@ -44,6 +44,12 @@ No pull requests were found since last tag
 To access the Github API, a an access token is needed. It must be defines as sbt Credentials, with `realm=github` and
 `password={token}`.
  
+## Hints for use
+
+To get sensible release notes, provide sensible Pull Request titles and commit messages. Consider squashing your commits.
+
+You can install this plugin as a [global plugin](http://www.scala-sbt.org/0.12.2/docs/Getting-Started/Using-Plugins.html#global-plugins) to avoid configuring the Github access token for every project.
+
 ## To test
 
     sbt scripted
